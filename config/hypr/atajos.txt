@@ -1,0 +1,26 @@
+Super + Enter            Terminal (kitty)
+Super + D                Lanzador de apps
+Super + E                Archivos
+Super + B                Firefox
+Super + I                Ajustes (red, bluetooth, sonido)
+Super + Q                Cerrar ventana
+Super + F                Pantalla completa
+Super + M                Maximizar
+Super + V                Ventana flotante
+Super + flechas          Mover la ventana / ajustarla a media pantalla
+Super + Shift + flechas  Enviar la ventana a la otra pantalla
+Super + Alt + flechas    Cambiar el foco
+Super + Ctrl + flechas   Redimensionar la ventana
+Alt + Tab                Siguiente ventana
+Super + clic izquierdo   Arrastrar la ventana
+Super + clic derecho     Redimensionar con el ratón
+Super + 1..0             Ir al workspace
+Super + Shift + 1..0     Enviar la ventana al workspace
+Super + S                Scratchpad
+Super + Espacio          Teclado us / latam
+Super + L                Bloquear
+Super + Shift + E        Menú de energía
+Super + Shift + V        Historial del portapapeles
+Print                    Captura de región
+Shift + Print            Captura de pantalla completa
+Super + F1               Esta lista

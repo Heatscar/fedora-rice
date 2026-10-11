@@ -1,0 +1,51 @@
+# Starship - Tokyo Night
+
+add_newline = true
+
+format = """
+[ ](bold #7aa2f7)$directory$git_branch$git_status$flutter$dart$dotnet$java$python$nodejs$cmd_duration
+$character"""
+
+[directory]
+style = "bold #7dcfff"
+truncation_length = 3
+truncate_to_repo = true
+read_only = " "
+
+[git_branch]
+symbol = " "
+style = "bold #bb9af7"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "#f7768e"
+format = "([$all_status$ahead_behind]($style) )"
+
+[cmd_duration]
+min_time = 2000
+style = "#e0af68"
+format = "[$duration]($style) "
+
+[character]
+success_symbol = "[❯](bold #9ece6a)"
+error_symbol = "[❯](bold #f7768e)"
+
+[dart]
+style = "#7aa2f7"
+format = "[$symbol($version )]($style)"
+
+[dotnet]
+style = "#bb9af7"
+format = "[$symbol($version )]($style)"
+
+[java]
+style = "#ff9e64"
+format = "[$symbol($version )]($style)"
+
+[python]
+style = "#e0af68"
+format = "[$symbol($version )]($style)"
+
+[nodejs]
+style = "#9ece6a"
+format = "[$symbol($version )]($style)"

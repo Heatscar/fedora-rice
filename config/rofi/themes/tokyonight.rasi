@@ -1,0 +1,78 @@
+/* Rofi - Tokyo Night */
+
+* {
+    bg:      #1a1b26;
+    bg-alt:  #24283b;
+    bg-sel:  #292e42;
+    fg:      #c0caf5;
+    comment: #565f89;
+    blue:    #7aa2f7;
+    magenta: #bb9af7;
+    red:     #f7768e;
+
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    width:            560px;
+    background-color: #1a1b26e6;
+    border:           2px;
+    border-color:     @blue;
+    border-radius:    14px;
+    padding:          16px;
+}
+
+mainbox {
+    spacing:  12px;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    10px;
+    padding:          10px 14px;
+    spacing:          10px;
+    children:         [ prompt, entry ];
+}
+
+prompt {
+    text-color: @blue;
+}
+
+entry {
+    placeholder:       "Buscar...";
+    placeholder-color: @comment;
+}
+
+listview {
+    lines:        8;
+    columns:      1;
+    spacing:      4px;
+    scrollbar:    false;
+    fixed-height: true;
+}
+
+element {
+    padding:       8px 12px;
+    border-radius: 8px;
+    spacing:       12px;
+}
+
+element selected {
+    background-color: @bg-sel;
+    text-color:       @blue;
+}
+
+element urgent {
+    text-color: @red;
+}
+
+element-icon {
+    size: 24px;
+}
+
+element-text {
+    vertical-align: 0.5;
+    text-color:     inherit;
+}

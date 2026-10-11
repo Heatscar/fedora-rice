@@ -1,0 +1,133 @@
+/* Waybar - Tokyo Night */
+
+@define-color bg       #1a1b26;
+@define-color bg_dark  #16161e;
+@define-color bg_hl    #292e42;
+@define-color fg       #c0caf5;
+@define-color comment  #565f89;
+@define-color blue     #7aa2f7;
+@define-color cyan     #7dcfff;
+@define-color magenta  #bb9af7;
+@define-color green    #9ece6a;
+@define-color yellow   #e0af68;
+@define-color orange   #ff9e64;
+@define-color red      #f7768e;
+
+* {
+    font-family: "JetBrainsMono Nerd Font", monospace;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: alpha(@bg, 0.85);
+    border: 1px solid alpha(@blue, 0.25);
+    border-radius: 12px;
+    padding: 0 6px;
+}
+
+tooltip {
+    background: @bg_dark;
+    border: 1px solid @blue;
+    border-radius: 10px;
+}
+
+tooltip label {
+    color: @fg;
+}
+
+#custom-launcher {
+    color: @blue;
+    font-size: 16px;
+    padding: 0 10px 0 8px;
+}
+
+#workspaces button {
+    color: @comment;
+    padding: 0 8px;
+    margin: 5px 2px;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+#workspaces button:hover {
+    background: @bg_hl;
+    color: @fg;
+}
+
+#workspaces button.active {
+    background: @blue;
+    color: @bg_dark;
+}
+
+#workspaces button.urgent {
+    background: @red;
+    color: @bg_dark;
+}
+
+#window {
+    color: @fg;
+    padding: 0 10px;
+    font-weight: 400;
+}
+
+window#waybar.empty #window {
+    padding: 0;
+}
+
+#clock,
+#tray,
+#language,
+#pulseaudio,
+#backlight,
+#network,
+#cpu,
+#memory,
+#battery,
+#custom-power {
+    padding: 0 9px;
+}
+
+#clock      { color: @fg; }
+#language   { color: @comment; }
+#pulseaudio { color: @magenta; }
+#backlight  { color: @yellow; }
+#network    { color: @cyan; }
+#cpu        { color: @green; }
+#memory     { color: @orange; }
+#battery    { color: @green; }
+
+#pulseaudio.muted,
+#network.disconnected {
+    color: @comment;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @cyan;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+}
+
+#custom-power {
+    color: @red;
+    padding: 0 12px 0 9px;
+}

@@ -1,2 +1,220 @@
 # fedora-rice
-hyprland rice on fedora 44
+
+Rice de **Hyprland** con paleta **Tokyo Night** para **Fedora 44 Workstation**: mosaico automático de ventanas, barra en "islas", lanzador, notificaciones, terminal, pantalla de bloqueo y tema de apps a juego. Se instala con un solo script y convive con GNOME, que queda como sesión alternativa.
+
+## Qué incluye
+
+| Componente | Programa |
+|---|---|
+| Compositor | Hyprland 0.56 (configuración en Lua) |
+| Barra | Waybar |
+| Lanzador, menú de energía, portapapeles | Rofi |
+| Terminal | Kitty |
+| Prompt | Starship |
+| Notificaciones | Mako |
+| Fondo de pantalla | Hyprpaper |
+| Bloqueo e inactividad | Hyprlock + Hypridle |
+| Tema de apps | adw-gtk3-dark + colores Tokyo Night para GTK3/GTK4 |
+| Iconos y cursor | Papirus-Dark + Bibata-Modern-Ice |
+| Fuente | JetBrainsMono Nerd Font |
+| Extra | Fastfetch personalizado |
+
+## Importante antes de instalar
+
+**Hyprland no viene de los repos oficiales de Fedora.** Fedora 44 no lo empaqueta, así que el instalador activa el COPR comunitario [`sdegler/hyprland`](https://copr.fedorainfracloud.org/coprs/sdegler/hyprland/), que es el Hyprland original compilado para Fedora junto con su ecosistema (hyprlock, hypridle, hyprpaper, etc.). Es un repositorio de terceros: quien lo mantiene no es Fedora ni el proyecto Hyprland.
+
+**La configuración está en Lua, no en `hyprland.conf`.** Desde las versiones recientes Hyprland se configura con `~/.config/hypr/hyprland.lua`. Casi todas las guías y dotfiles antiguos usan la sintaxis `hyprland.conf` (`bind = SUPER, Q, killactive`), que no sirve aquí. La referencia válida es la [wiki oficial](https://wiki.hypr.land/Configuring/Start/).
+
+**Probado en:** Fedora 44 Workstation con GNOME 50, Hyprland 0.56.2, gráficos Intel Iris Xe (ThinkPad T14s Gen 2i), con un monitor externo. No está probado con NVIDIA ni en otras versiones de Fedora; el COPR debe tener paquetes para tu versión.
+
+## Instalación
+
+```bash
+git clone https://github.com/Heatscar/fedora-rice.git
+cd fedora-rice
+./install.sh
+```
+
+El script hace lo siguiente:
+
+1. Activa el COPR `sdegler/hyprland` e instala los paquetes con `dnf` (pide tu contraseña de `sudo` y confirmación).
+2. Descarga en tu carpeta personal, sin `sudo`, la fuente JetBrainsMono Nerd Font, el cursor Bibata-Modern-Ice y Starship (este último verificando su suma sha256).
+3. Copia las configuraciones a `~/.config`. Si ya tenías algún archivo distinto, guarda antes una copia en `~/.config/rice-backup-<fecha>/`.
+
+Opciones:
+
+| Comando | Efecto |
+|---|---|
+| `./install.sh` | Instalación completa |
+| `./install.sh --no-packages` | Omite `dnf`; no pide `sudo` |
+| `./install.sh --configs-only` | Solo copia las configuraciones (útil para actualizar) |
+
+### Entrar a Hyprland
+
+1. Cierra sesión.
+2. En la pantalla de login selecciona tu usuario y abre el engranaje de abajo a la derecha.
+3. Elige **Hyprland**. No elijas "Hyprland (uwsm-managed)": esta configuración está pensada para la sesión normal.
+4. Inicia sesión. `Super + Enter` abre una terminal y `Super + F1` muestra los atajos.
+
+Si algo queda inutilizable, `Super + Shift + E` abre el menú de energía. Si tampoco responde, `Ctrl + Alt + F3` da una consola de texto, y desde el login siempre puedes volver a GNOME.
+
+## Atajos
+
+| Atajo | Acción |
+|---|---|
+| `Super + Enter` | Terminal (kitty) |
+| `Super + D` | Lanzador de apps |
+| `Super + E` / `Super + B` | Archivos (Nautilus) / Firefox |
+| `Super + I` | Ajustes de GNOME (red, Bluetooth, sonido) |
+| `Super + Q` | Cerrar ventana |
+| `Super + F` / `Super + M` | Pantalla completa / maximizar |
+| `Super + V` | Ventana flotante |
+| `Super + flechas` | Mover la ventana o ajustarla a media pantalla |
+| `Super + Shift + flechas` | Enviar la ventana a la otra pantalla |
+| `Super + Alt + flechas` | Cambiar el foco |
+| `Super + Ctrl + flechas` | Redimensionar la ventana |
+| `Alt + Tab` | Siguiente ventana |
+| `Super + clic izquierdo` / `derecho` | Arrastrar / redimensionar con el ratón |
+| `Super + 1..0` | Ir al workspace |
+| `Super + Shift + 1..0` | Enviar la ventana al workspace |
+| `Super + rueda del ratón` | Workspace siguiente / anterior |
+| `Super + S` | Mostrar u ocultar el scratchpad |
+| `Super + Shift + S` | Enviar la ventana al scratchpad |
+| `Super + P` / `Super + J` | Pseudo-mosaico / cambiar la orientación de la división |
+| `Super + Espacio` | Alternar distribución de teclado (us / latam) |
+| `Super + L` | Bloquear |
+| `Super + Shift + E` | Menú de energía |
+| `Super + Shift + V` | Historial del portapapeles |
+| `Print` / `Shift + Print` | Captura de región / pantalla completa |
+| `Super + F1` | Ver la lista de atajos en pantalla |
+
+Las teclas de volumen, micrófono, brillo y multimedia del teclado también funcionan. Deslizar tres dedos en horizontal sobre el touchpad cambia de workspace.
+
+### Cómo se comportan las flechas
+
+`Super + flechas` imita el ajuste de ventanas de GNOME sobre el mosaico (lógica en `snap.lua`):
+
+- **Ventana sola en el workspace:** izquierda o derecha la ajusta a esa mitad de la pantalla; arriba o abajo la devuelve a ocupar todo el espacio.
+- **Varias ventanas:** las flechas mueven la ventana dentro del mosaico.
+- **Ventana maximizada o en pantalla completa:** se restaura antes de moverla.
+
+Una ventana ajustada a una mitad queda flotando: si abres otra en ese workspace, la nueva ocupa toda la pantalla por debajo. Con dos o más ventanas no hace falta ajustar, el mosaico ya las reparte.
+
+### Ratón
+
+Las ventanas en mosaico no se arrastran por la barra de título. Mantén `Super` y arrastra con el clic izquierdo desde cualquier parte de la ventana para moverla, o con el derecho para redimensionarla.
+
+## Adaptarlo a tu equipo
+
+### Pantallas
+
+La disposición vive en `~/.config/hypr/monitors.lua`, y el instalador no la sobrescribe si ya existe. Por defecto coloca todas las pantallas automáticamente en su resolución nativa. Para una disposición concreta:
+
+1. Ejecuta `hyprctl monitors` para ver el nombre de cada pantalla (`eDP-1`, `DP-3`, `HDMI-A-1`...) y sus modos.
+2. Edita `monitors.lua`; el archivo trae un ejemplo comentado de monitor externo arriba y portátil centrado debajo.
+3. Guarda. Hyprland recarga la configuración al instante.
+
+`position` son las coordenadas `"XxY"` de la esquina superior izquierda de cada pantalla, medidas en píxeles ya escalados (una pantalla de 1920x1080 a escala 1.25 ocupa 1536x864).
+
+### Fondo de pantalla
+
+```bash
+~/.config/hypr/scripts/wallpaper.sh ~/Pictures/tu-imagen.jpg
+```
+
+Cambia el fondo del escritorio y el de la pantalla de bloqueo al instante, y se mantiene al reiniciar. Acepta jpg, png, webp y jxl. El fondo por defecto es un degradado Tokyo Night (`~/.config/hypr/wallpaper.jpg`).
+
+### Teclado
+
+En `hyprland.lua`, sección `INPUT`: `kb_layout = "us,latam"` define las distribuciones y `grp:win_space_toggle` hace que `Super + Espacio` alterne entre ellas. Si cambias las distribuciones, actualiza también `$LAYOUT[us,latam]` en `hyprlock.conf`.
+
+### Programas por defecto
+
+En `hyprland.lua`, sección `PROGRAMS`: terminal (`kitty`), archivos (`nautilus`), navegador (`firefox`) y lanzador (`rofi`). Nautilus y Firefox vienen con Fedora Workstation; el instalador no los instala.
+
+### Atajos
+
+Están en la sección `KEYBINDINGS` de `hyprland.lua`. Si añades o cambias alguno, actualiza `~/.config/hypr/atajos.txt`, que es la lista que muestra `Super + F1`.
+
+### Inactividad
+
+`hypridle.conf`: atenúa la pantalla a los 5 minutos, bloquea a los 10, apaga la pantalla a los 11 y suspende a los 30.
+
+## Ajustes del sistema
+
+Hyprland no tiene un panel central de configuración como GNOME:
+
+| Para | Dónde |
+|---|---|
+| Wi-Fi y redes | Icono de red en la bandeja de la barra, o clic en el módulo de red |
+| Bluetooth | Icono de Bluetooth en la bandeja |
+| Sonido | Clic en el volumen de la barra (abre pavucontrol); clic derecho silencia |
+| Pantallas | `~/.config/hypr/monitors.lua` |
+| Fondo | `wallpaper.sh` |
+| Resto | `Super + I` abre los Ajustes de GNOME |
+
+Los Ajustes de GNOME sirven para red, Bluetooth, sonido y energía. Sus secciones de pantallas y apariencia no tienen efecto dentro de Hyprland.
+
+## Cosas que también afectan a GNOME
+
+- **Colores de apps GTK:** `~/.config/gtk-3.0/gtk.css` y `~/.config/gtk-4.0/gtk.css` aplican la paleta Tokyo Night a las apps también dentro de GNOME.
+- **Tema, iconos y cursor:** al iniciar Hyprland, `scripts/theme.sh` cambia con `gsettings` el esquema de color a oscuro, el tema GTK, los iconos y el cursor. Ese ajuste es compartido con GNOME.
+- **Fastfetch:** la configuración personalizada aplica en cualquier terminal.
+- **Prompt Starship:** solo se activa dentro de kitty (`~/.bashrc.d/starship.sh`), porque sus iconos necesitan una Nerd Font y otras terminales los mostrarían rotos.
+
+## Estructura del repositorio
+
+```
+install.sh                  Instalador
+bashrc.d/starship.sh        Activa el prompt en kitty        -> ~/.bashrc.d/
+config/                     Todo lo de aquí se copia a ~/.config/
+├── hypr/
+│   ├── hyprland.lua        Configuración principal
+│   ├── monitors.lua        Disposición de pantallas (propia de cada equipo)
+│   ├── snap.lua            Lógica de Super + flechas
+│   ├── hyprpaper.conf      Fondo de pantalla
+│   ├── hyprlock.conf       Pantalla de bloqueo
+│   ├── hypridle.conf       Inactividad
+│   ├── atajos.txt          Lista que muestra Super + F1
+│   ├── wallpaper.jpg       Fondo por defecto
+│   └── scripts/            Tema, capturas, menú de energía, portapapeles, fondo, atajos
+├── waybar/                 Barra
+├── rofi/                   Lanzador y su tema
+├── kitty/                  Terminal y colores
+├── mako/                   Notificaciones
+├── fastfetch/              Fastfetch
+├── gtk-3.0/, gtk-4.0/      Colores Tokyo Night para apps GTK
+└── starship.toml           Prompt
+```
+
+## Problemas conocidos
+
+- **Clic en los workspaces de la barra:** no está comprobado que cambie de workspace con esta versión de Hyprland. Los atajos `Super + 1..0` sí funcionan.
+- **Validar la configuración:** tras editar `hyprland.lua`, `hyprctl configerrors` muestra los errores de la sesión activa, y `Hyprland --verify-config -c ~/.config/hypr/hyprland.lua` la comprueba sin aplicarla.
+- **La barra no aparece o algo no arranca:** los programas de inicio están en la sección `AUTOSTART` de `hyprland.lua`; ejecútalos a mano en una terminal (por ejemplo `waybar`) para ver el error.
+
+## Desinstalar
+
+```bash
+# Paquetes y repositorio
+sudo dnf remove hyprland hyprpaper hyprlock hypridle hyprpolkitagent xdg-desktop-portal-hyprland waybar rofi kitty mako
+sudo dnf copr remove sdegler/hyprland
+
+# Configuraciones
+rm -rf ~/.config/{hypr,waybar,rofi,kitty,mako,fastfetch} ~/.config/starship.toml
+rm -f ~/.config/gtk-3.0/gtk.css ~/.config/gtk-4.0/gtk.css ~/.bashrc.d/starship.sh
+
+# Volver al aspecto por defecto de GNOME
+gsettings reset org.gnome.desktop.interface gtk-theme
+gsettings reset org.gnome.desktop.interface icon-theme
+gsettings reset org.gnome.desktop.interface cursor-theme
+```
+
+Si el instalador guardó copias de tus archivos anteriores, están en `~/.config/rice-backup-<fecha>/`.
+
+## Créditos
+
+- [Hyprland](https://hypr.land/) y su ecosistema
+- Paleta [Tokyo Night](https://github.com/folke/tokyonight.nvim)
+- COPR [`sdegler/hyprland`](https://copr.fedorainfracloud.org/coprs/sdegler/hyprland/)
+- [JetBrainsMono Nerd Font](https://www.nerdfonts.com/), [Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor), [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme), [adw-gtk3](https://github.com/lassekongo83/adw-gtk3)
