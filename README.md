@@ -14,6 +14,7 @@ Rice de **Hyprland** con paleta **Tokyo Night** para **Fedora 44 Workstation**: 
 | Notificaciones | Mako |
 | Fondo de pantalla | Hyprpaper |
 | Bloqueo e inactividad | Hyprlock + Hypridle |
+| Luz nocturna | Hyprsunset |
 | Tema de apps | adw-gtk3-dark + colores Tokyo Night para GTK3/GTK4 |
 | Iconos y cursor | Papirus-Dark + Bibata-Modern-Ice |
 | Fuente | JetBrainsMono Nerd Font |
@@ -62,33 +63,35 @@ Si algo queda inutilizable, `Super + Shift + E` abre el menú de energía. Si ta
 
 | Atajo | Acción |
 |---|---|
+| `Super + Espacio` | Lanzador de apps; otra vez lo cierra |
 | `Super + Enter` | Terminal (kitty) |
-| `Super + D` | Lanzador de apps |
 | `Super + E` / `Super + B` | Archivos (Nautilus) / Firefox |
 | `Super + I` | Ajustes de GNOME (red, Bluetooth, sonido) |
 | `Super + Q` | Cerrar ventana |
-| `Super + F` / `Super + M` | Pantalla completa / maximizar |
-| `Super + V` | Ventana flotante |
+| `Super + F` / `Super + M` | Pantalla completa en un workspace propio / maximizar |
+| `Super + Shift + V` | Ventana flotante |
+| `Super + J` | Cambiar la orientación de la división |
 | `Super + flechas` | Mover la ventana o ajustarla a media pantalla |
 | `Super + Shift + flechas` | Enviar la ventana a la otra pantalla |
 | `Super + Alt + flechas` | Cambiar el foco |
 | `Super + Ctrl + flechas` | Redimensionar la ventana |
-| `Alt + Tab` | Siguiente ventana |
+| `Alt + Tab` | Lista de todas las ventanas abiertas; `Enter` elige |
 | `Super + clic izquierdo` / `derecho` | Arrastrar / redimensionar con el ratón |
 | `Super + 1..0` | Ir al workspace |
 | `Super + Shift + 1..0` | Enviar la ventana al workspace |
+| `Super + Shift + N` | Enviar la ventana al primer workspace vacío de esa pantalla |
+| `Super + Tab` | Volver al workspace anterior |
 | `Super + rueda del ratón` | Workspace siguiente / anterior |
-| `Super + S` | Mostrar u ocultar el scratchpad |
-| `Super + Shift + S` | Enviar la ventana al scratchpad |
-| `Super + P` / `Super + J` | Pseudo-mosaico / cambiar la orientación de la división |
-| `Super + Espacio` | Alternar distribución de teclado (us / latam) |
+| `Super + V` | Historial del portapapeles |
+| `Super + N` | Activar o desactivar la luz nocturna |
 | `Super + L` | Bloquear |
 | `Super + Shift + E` | Menú de energía |
-| `Super + Shift + V` | Historial del portapapeles |
-| `Print` / `Shift + Print` | Captura de región / pantalla completa |
+| `Super + Shift + Espacio` | Alternar distribución de teclado (us / latam) |
+| `Print` o `Super + Shift + S` | Captura de región |
+| `Shift + Print` | Captura de pantalla completa |
 | `Super + F1` | Ver la lista de atajos en pantalla |
 
-Las teclas de volumen, micrófono, brillo y multimedia del teclado también funcionan. Deslizar tres dedos en horizontal sobre el touchpad cambia de workspace.
+Las teclas de volumen, micrófono y brillo muestran un indicador en pantalla, y las multimedia también funcionan. Deslizar tres dedos en horizontal sobre el touchpad cambia de workspace.
 
 ### Cómo se comportan las flechas
 
@@ -99,6 +102,14 @@ Las teclas de volumen, micrófono, brillo y multimedia del teclado también func
 - **Ventana maximizada o en pantalla completa:** se restaura antes de moverla.
 
 Una ventana ajustada a una mitad queda flotando: si abres otra en ese workspace, la nueva ocupa toda la pantalla por debajo. Con dos o más ventanas no hace falta ajustar, el mosaico ya las reparte.
+
+### Pantalla completa
+
+`Super + F` funciona como en macOS (lógica en `fullscreen.lua`): si la ventana comparte workspace con otras, se lleva a un workspace vacío antes de ponerse en pantalla completa, de modo que las demás siguen visibles en el suyo. Al pulsar `Super + F` otra vez, o al cerrar la ventana, vuelves al workspace de origen. `Super + M` maximiza sin cambiar de workspace.
+
+### Alt + Tab
+
+Abre una lista con todas las ventanas abiertas, de cualquier workspace. Se avanza con `Alt + Tab` o con las flechas, se puede escribir para filtrar, y `Enter` enfoca la elegida. Soltar `Alt` no elige: hay que confirmar con `Enter`.
 
 ### Ratón
 
@@ -116,6 +127,10 @@ La disposición vive en `~/.config/hypr/monitors.lua`, y el instalador no la sob
 
 `position` son las coordenadas `"XxY"` de la esquina superior izquierda de cada pantalla, medidas en píxeles ya escalados (una pantalla de 1920x1080 a escala 1.25 ocupa 1536x864).
 
+### Workspaces por pantalla
+
+Por defecto los workspaces se crean en la pantalla donde estés. Con varias pantallas es más predecible fijarlos: `monitors.lua` trae un ejemplo comentado que reserva del 1 al 5 para el monitor externo y del 6 al 10 para el portátil, visibles siempre en la barra de cada pantalla.
+
 ### Fondo de pantalla
 
 ```bash
@@ -126,7 +141,7 @@ Cambia el fondo del escritorio y el de la pantalla de bloqueo al instante, y se 
 
 ### Teclado
 
-En `hyprland.lua`, sección `INPUT`: `kb_layout = "us,latam"` define las distribuciones y `grp:win_space_toggle` hace que `Super + Espacio` alterne entre ellas. Si cambias las distribuciones, actualiza también `$LAYOUT[us,latam]` en `hyprlock.conf`.
+En `hyprland.lua`, sección `INPUT`: `kb_layout = "us,latam"` define las distribuciones, y `Super + Shift + Espacio` alterna entre ellas. Si cambias las distribuciones, actualiza también `$LAYOUT[us,latam]` en `hyprlock.conf`.
 
 ### Programas por defecto
 
@@ -135,6 +150,10 @@ En `hyprland.lua`, sección `PROGRAMS`: terminal (`kitty`), archivos (`nautilus`
 ### Atajos
 
 Están en la sección `KEYBINDINGS` de `hyprland.lua`. Si añades o cambias alguno, actualiza `~/.config/hypr/atajos.txt`, que es la lista que muestra `Super + F1`.
+
+### Luz nocturna
+
+`hyprsunset.conf` define el horario: tono normal desde las 7:00 y cálido (4000 K) desde las 19:00. `Super + N` la activa o desactiva a mano hasta el siguiente cambio de horario.
 
 ### Inactividad
 
@@ -172,12 +191,14 @@ config/                     Todo lo de aquí se copia a ~/.config/
 │   ├── hyprland.lua        Configuración principal
 │   ├── monitors.lua        Disposición de pantallas (propia de cada equipo)
 │   ├── snap.lua            Lógica de Super + flechas
+│   ├── fullscreen.lua      Lógica de Super + F
 │   ├── hyprpaper.conf      Fondo de pantalla
 │   ├── hyprlock.conf       Pantalla de bloqueo
 │   ├── hypridle.conf       Inactividad
+│   ├── hyprsunset.conf     Horario de la luz nocturna
 │   ├── atajos.txt          Lista que muestra Super + F1
 │   ├── wallpaper.jpg       Fondo por defecto
-│   └── scripts/            Tema, capturas, menú de energía, portapapeles, fondo, atajos
+│   └── scripts/            Tema, capturas, energía, portapapeles, fondo, atajos, indicador, luz nocturna, ventanas
 ├── waybar/                 Barra
 ├── rofi/                   Lanzador y su tema
 ├── kitty/                  Terminal y colores
@@ -197,7 +218,7 @@ config/                     Todo lo de aquí se copia a ~/.config/
 
 ```bash
 # Paquetes y repositorio
-sudo dnf remove hyprland hyprpaper hyprlock hypridle hyprpolkitagent xdg-desktop-portal-hyprland waybar rofi kitty mako
+sudo dnf remove hyprland hyprpaper hyprlock hypridle hyprsunset hyprpolkitagent xdg-desktop-portal-hyprland waybar rofi kitty mako
 sudo dnf copr remove sdegler/hyprland
 
 # Configuraciones

@@ -19,8 +19,7 @@
 
     "hyprland/workspaces": {
         "format": "{id}",
-        "on-click": "activate",
-        "persistent-workspaces": { "*": 5 }
+        "on-click": "activate"
     },
 
     "hyprland/window": {

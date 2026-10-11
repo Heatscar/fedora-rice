@@ -67,6 +67,12 @@ tooltip label {
     color: @fg;
 }
 
+/* workspace a la vista en una pantalla que no tiene el foco */
+#workspaces button.visible {
+    background: @bg_hl;
+    color: @fg;
+}
+
 #workspaces button.active {
     background: @blue;
     color: @bg_dark;

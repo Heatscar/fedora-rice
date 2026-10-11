@@ -14,7 +14,7 @@ BACKUP_DIR="$CONFIG_DIR/rice-backup-$(date +%Y%m%d-%H%M%S)"
 COPR_REPO="sdegler/hyprland"
 PACKAGES=(
     # Hyprland y su ecosistema (COPR)
-    hyprland hyprpaper hyprlock hypridle hyprpolkitagent xdg-desktop-portal-hyprland
+    hyprland hyprpaper hyprlock hypridle hyprsunset hyprpolkitagent xdg-desktop-portal-hyprland
     # Barra, lanzador, terminal y notificaciones
     waybar rofi kitty mako
     # Utilidades que usan los atajos y scripts

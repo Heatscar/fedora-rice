@@ -19,7 +19,7 @@ require("monitors")
 local terminal    = "kitty"
 local fileManager = "nautilus"
 local browser     = "firefox"
-local menu        = "rofi -show drun"
+local menu        = "pkill -x rofi || rofi -show drun"   -- abre el lanzador, o lo cierra si ya esta abierto
 
 
 -------------------
@@ -32,6 +32,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
     hl.exec_cmd("hypridle")
+    hl.exec_cmd("hyprsunset")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("blueman-applet")
@@ -157,11 +158,11 @@ hl.config({
 
 hl.config({
     input = {
-        -- SUPER + Espacio alterna entre us y latam (igual que en GNOME)
+        -- SUPER + SHIFT + Espacio alterna entre us y latam (bind mas abajo)
         kb_layout  = "us,latam",
         kb_variant = "",
         kb_model   = "",
-        kb_options = "grp:win_space_toggle",
+        kb_options = "",
         kb_rules   = "",
 
         follow_mouse = 1,
@@ -190,24 +191,25 @@ local mainMod = "SUPER"
 
 -- Programas
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + D",      hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + space",  hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B",      hl.dsp.exec_cmd(browser))
 
 -- Sesion
 hl.bind(mainMod .. " + L",         hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scripts .. "powermenu.sh"))
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(scripts .. "clipboard.sh"))
+hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd(scripts .. "clipboard.sh"))
+hl.bind(mainMod .. " + N",         hl.dsp.exec_cmd(scripts .. "nightlight.sh"))
+hl.bind(mainMod .. " + SHIFT + space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 hl.bind(mainMod .. " + F1",        hl.dsp.exec_cmd(scripts .. "atajos.sh"))
 -- Ajustes de GNOME: sirven para red, bluetooth, sonido y energia; pantallas y apariencia no aplican aqui
 hl.bind(mainMod .. " + I",         hl.dsp.exec_cmd("env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"))
 
 -- Ventanas
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + F", require("fullscreen").bind())      -- ver fullscreen.lua
 hl.bind(mainMod .. " + M", hl.dsp.window.fullscreen({ mode = "maximized" }))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
 -- Flechas: mover/ajustar la ventana (ver snap.lua), con SHIFT enviarla a la otra pantalla,
@@ -219,7 +221,8 @@ for _, dir in ipairs({ "left", "right", "up", "down" }) do
     hl.bind(mainMod .. " + SHIFT + " .. dir, hl.dsp.window.move({ monitor = monitorDir[dir] }))
     hl.bind(mainMod .. " + ALT + " .. dir,   hl.dsp.focus({ direction = dir }))
 end
-hl.bind("ALT + Tab", hl.dsp.window.cycle_next())
+-- Lista de todas las ventanas. non_consuming deja pasar Alt + Tab a rofi para avanzar en la lista
+hl.bind("ALT + Tab", hl.dsp.exec_cmd(scripts .. "windows.sh"), { non_consuming = true })
 
 hl.bind(mainMod .. " + CTRL + left",  hl.dsp.window.resize({ x = -40, y = 0,   relative = true }), { repeating = true })
 hl.bind(mainMod .. " + CTRL + right", hl.dsp.window.resize({ x = 40,  y = 0,   relative = true }), { repeating = true })
@@ -233,9 +236,11 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
 end
 
--- Scratchpad
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+-- Enviar la ventana activa al primer workspace vacio de esta pantalla (y seguirla)
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.window.move({ workspace = "emptym" }))
+
+-- Volver al workspace anterior
+hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
 
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
@@ -246,14 +251,16 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 -- Capturas: region / pantalla completa
 hl.bind("Print",         hl.dsp.exec_cmd(scripts .. "screenshot.sh region"))
 hl.bind("SHIFT + Print", hl.dsp.exec_cmd(scripts .. "screenshot.sh full"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd(scripts .. "screenshot.sh region"))
 
 -- Teclas multimedia
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"),                  { locked = true, repeating = true })
+-- osd.sh cambia el valor y muestra el indicador en pantalla
+hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd(scripts .. "osd.sh volume-up"),       { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd(scripts .. "osd.sh volume-down"),     { locked = true, repeating = true })
+hl.bind("XF86AudioMute",         hl.dsp.exec_cmd(scripts .. "osd.sh volume-mute"),     { locked = true })
+hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd(scripts .. "osd.sh mic-mute"),        { locked = true })
+hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd(scripts .. "osd.sh brightness-up"),   { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(scripts .. "osd.sh brightness-down"), { locked = true, repeating = true })
 
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })

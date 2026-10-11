@@ -21,3 +21,14 @@ border-color=#414868
 [urgency=critical]
 border-color=#f7768e
 default-timeout=0
+
+# Indicador de volumen, brillo y luz nocturna (scripts/osd.sh)
+[app-name=osd]
+anchor=bottom-center
+margin=60
+width=280
+text-alignment=center
+border-color=#bb9af7
+progress-color=over #3d59a1
+default-timeout=1500
+history=0
