@@ -23,6 +23,7 @@ Super + V                Historial del portapapeles
 Super + N                Luz nocturna (activar / desactivar)
 Super + L                Bloquear
 Super + Shift + E        Menú de energía
+Ctrl + Alt + Supr        Menú de energía
 Super + Shift + Espacio  Teclado us / latam
 Super + Shift + S        Captura de región
 Print                    Captura de región

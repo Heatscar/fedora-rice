@@ -10,6 +10,7 @@ local scripts = home .. "/.config/hypr/scripts/"
 
 -- La disposicion de pantallas es propia de cada equipo y vive en monitors.lua
 require("monitors")
+require("workspaces")   -- reparto de workspaces segun las pantallas conectadas
 
 
 ------------------
@@ -170,7 +171,7 @@ hl.config({
         sensitivity = 0,
 
         touchpad = {
-            natural_scroll = true,
+            natural_scroll = false,   -- true = el contenido sigue a los dedos (estilo macOS)
             tap_to_click   = true,
         },
     },
@@ -198,6 +199,7 @@ hl.bind(mainMod .. " + B",      hl.dsp.exec_cmd(browser))
 -- Sesion
 hl.bind(mainMod .. " + L",         hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd(scripts .. "powermenu.sh"))
+hl.bind("CTRL + ALT + Delete",     hl.dsp.exec_cmd(scripts .. "powermenu.sh"))
 hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd(scripts .. "clipboard.sh"))
 hl.bind(mainMod .. " + N",         hl.dsp.exec_cmd(scripts .. "nightlight.sh"))
 hl.bind(mainMod .. " + SHIFT + space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))

@@ -98,7 +98,6 @@ window#waybar.empty #window {
 #language,
 #pulseaudio,
 #backlight,
-#network,
 #cpu,
 #memory,
 #battery,
@@ -110,13 +109,11 @@ window#waybar.empty #window {
 #language   { color: @comment; }
 #pulseaudio { color: @magenta; }
 #backlight  { color: @yellow; }
-#network    { color: @cyan; }
 #cpu        { color: @green; }
 #memory     { color: @orange; }
 #battery    { color: @green; }
 
-#pulseaudio.muted,
-#network.disconnected {
+#pulseaudio.muted {
     color: @comment;
 }
 

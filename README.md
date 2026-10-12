@@ -85,7 +85,7 @@ Si algo queda inutilizable, `Super + Shift + E` abre el menú de energía. Si ta
 | `Super + V` | Historial del portapapeles |
 | `Super + N` | Activar o desactivar la luz nocturna |
 | `Super + L` | Bloquear |
-| `Super + Shift + E` | Menú de energía |
+| `Super + Shift + E` o `Ctrl + Alt + Supr` | Menú de energía (apagar, reiniciar y cerrar sesión piden confirmación con cuenta atrás de 60 s) |
 | `Super + Shift + Espacio` | Alternar distribución de teclado (us / latam) |
 | `Print` o `Super + Shift + S` | Captura de región |
 | `Shift + Print` | Captura de pantalla completa |
@@ -129,7 +129,16 @@ La disposición vive en `~/.config/hypr/monitors.lua`, y el instalador no la sob
 
 ### Workspaces por pantalla
 
-Por defecto los workspaces se crean en la pantalla donde estés. Con varias pantallas es más predecible fijarlos: `monitors.lua` trae un ejemplo comentado que reserva del 1 al 5 para el monitor externo y del 6 al 10 para el portátil, visibles siempre en la barra de cada pantalla.
+En un portátil, `workspaces.lua` reparte los workspaces según las pantallas conectadas, y la barra de cada pantalla muestra siempre los suyos:
+
+- **Portátil con monitor externo:** del 1 al 5 en el externo y del 6 al 10 en el portátil.
+- **Solo el portátil:** del 1 al 5 en el portátil.
+
+Al conectar o desconectar el monitor el reparto se recalcula solo. Da por hecho que la pantalla integrada se llama `eDP-1` (cámbialo al principio del archivo si no es tu caso); en equipos de sobremesa no hace nada.
+
+### Touchpad y ratón
+
+En `hyprland.lua`, sección `INPUT`. Los Ajustes de GNOME no tienen efecto sobre el touchpad ni el ratón dentro de Hyprland. `natural_scroll = false` es el desplazamiento tradicional; `true` hace que el contenido siga a los dedos, como en macOS. `tap_to_click` activa el toque como clic.
 
 ### Fondo de pantalla
 
@@ -153,11 +162,21 @@ Están en la sección `KEYBINDINGS` de `hyprland.lua`. Si añades o cambias algu
 
 ### Luz nocturna
 
-`hyprsunset.conf` define el horario: tono normal desde las 7:00 y cálido (4000 K) desde las 19:00. `Super + N` la activa o desactiva a mano hasta el siguiente cambio de horario.
+Está siempre activa (4000 K) desde que inicias sesión, y `Super + N` la apaga o enciende a mano. Para usar un horario, añade bloques `profile` con otras horas en `hyprsunset.conf`; el archivo lo explica.
+
+### Pantalla de bloqueo
+
+`hyprlock.conf`. Se desbloquea con contraseña o, si el equipo tiene lector con huellas registradas (en Ajustes de GNOME → Usuarios), con la huella:
+
+- **Con lector:** bajo el campo aparece "Toca el lector de huella o escribe tu contraseña", y "Leyendo huella..." mientras lee.
+- **Sin lector:** aparece "Escribe tu contraseña".
+- **Si la huella o la contraseña no coinciden:** el campo lo indica y cuenta los intentos; se puede reintentar de inmediato.
+
+La huella la lee hyprlock directamente, y la contraseña usa el servicio PAM `password-auth`, que en Fedora no incluye la huella. No cambies ese servicio por el de defecto: los dos métodos competirían por el lector y la huella dejaría de funcionar tras suspender. La fecha se muestra en español (`LC_TIME=es_MX.UTF-8`).
 
 ### Inactividad
 
-`hypridle.conf`: atenúa la pantalla a los 5 minutos, bloquea a los 10, apaga la pantalla a los 11 y suspende a los 30.
+`hypridle.conf`: atenúa la pantalla a los 5 minutos, bloquea a los 10, apaga la pantalla a los 11 y suspende a los 30. Antes de cualquier suspensión (menú, tapa o inactividad) bloquea la sesión y no deja dormir al equipo hasta que la pantalla de bloqueo está puesta, sin animación de entrada, para que al despertar no se vea el escritorio.
 
 ## Ajustes del sistema
 
@@ -165,10 +184,11 @@ Hyprland no tiene un panel central de configuración como GNOME:
 
 | Para | Dónde |
 |---|---|
-| Wi-Fi y redes | Icono de red en la bandeja de la barra, o clic en el módulo de red |
+| Wi-Fi y redes | Icono de red en la bandeja de la barra |
 | Bluetooth | Icono de Bluetooth en la bandeja |
 | Sonido | Clic en el volumen de la barra (abre pavucontrol); clic derecho silencia |
 | Pantallas | `~/.config/hypr/monitors.lua` |
+| Touchpad y ratón | Sección `INPUT` de `~/.config/hypr/hyprland.lua` |
 | Fondo | `wallpaper.sh` |
 | Resto | `Super + I` abre los Ajustes de GNOME |
 
@@ -190,6 +210,7 @@ config/                     Todo lo de aquí se copia a ~/.config/
 ├── hypr/
 │   ├── hyprland.lua        Configuración principal
 │   ├── monitors.lua        Disposición de pantallas (propia de cada equipo)
+│   ├── workspaces.lua      Reparto de workspaces según las pantallas conectadas
 │   ├── snap.lua            Lógica de Super + flechas
 │   ├── fullscreen.lua      Lógica de Super + F
 │   ├── hyprpaper.conf      Fondo de pantalla
@@ -198,7 +219,7 @@ config/                     Todo lo de aquí se copia a ~/.config/
 │   ├── hyprsunset.conf     Horario de la luz nocturna
 │   ├── atajos.txt          Lista que muestra Super + F1
 │   ├── wallpaper.jpg       Fondo por defecto
-│   └── scripts/            Tema, capturas, energía, portapapeles, fondo, atajos, indicador, luz nocturna, ventanas
+│   └── scripts/            Tema, capturas, energía, portapapeles, fondo, atajos, indicador, luz nocturna, ventanas, ayuda del bloqueo
 ├── waybar/                 Barra
 ├── rofi/                   Lanzador y su tema
 ├── kitty/                  Terminal y colores

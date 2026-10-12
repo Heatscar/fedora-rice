@@ -18,7 +18,7 @@ PACKAGES=(
     # Barra, lanzador, terminal y notificaciones
     waybar rofi kitty mako
     # Utilidades que usan los atajos y scripts
-    grim slurp cliphist wl-clipboard brightnessctl playerctl jq libnotify xdg-user-dirs file
+    grim slurp cliphist wl-clipboard brightnessctl playerctl jq libnotify xdg-user-dirs file zenity
     # Applets de sonido, red y bluetooth
     pavucontrol network-manager-applet blueman
     # Temas
