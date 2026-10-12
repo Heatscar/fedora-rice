@@ -2,6 +2,12 @@
 
 Rice de **Hyprland** con paleta **Tokyo Night** para **Fedora 44 Workstation**: mosaico automático de ventanas, barra en "islas", lanzador, notificaciones, terminal, pantalla de bloqueo y tema de apps a juego. Se instala con un solo script y convive con GNOME, que queda como sesión alternativa.
 
+![Escritorio con tres ventanas en mosaico: código, árbol de archivos y fastfetch](screenshots/escritorio.png)
+
+| Lanzador de apps | Pantalla de bloqueo |
+|---|---|
+| ![Lanzador rofi abierto sobre el escritorio](screenshots/lanzador.png) | ![Pantalla de bloqueo con reloj, fecha y campo de contraseña](screenshots/bloqueo.jpg) |
+
 ## Qué incluye
 
 | Componente | Programa |
@@ -215,6 +221,7 @@ Los Ajustes de GNOME sirven para red, Bluetooth, sonido y energía. Sus seccione
 ```
 install.sh                  Instalador
 bashrc.d/starship.sh        Activa el prompt en kitty        -> ~/.bashrc.d/
+screenshots/                Capturas que muestra este README
 config/                     Todo lo de aquí se copia a ~/.config/
 ├── hypr/
 │   ├── hyprland.lua        Configuración principal
