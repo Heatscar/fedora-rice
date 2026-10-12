@@ -97,8 +97,7 @@ window#waybar.empty #window {
 #tray,
 #language,
 #pulseaudio,
-#backlight,
-#cpu,
+#temperature,
 #memory,
 #battery,
 #custom-power {
@@ -108,10 +107,13 @@ window#waybar.empty #window {
 #clock      { color: @fg; }
 #language   { color: @comment; }
 #pulseaudio { color: @magenta; }
-#backlight  { color: @yellow; }
-#cpu        { color: @green; }
+#temperature { color: @green; }
 #memory     { color: @orange; }
 #battery    { color: @green; }
+
+#temperature.critical {
+    color: @red;
+}
 
 #pulseaudio.muted {
     color: @comment;
@@ -127,6 +129,19 @@ window#waybar.empty #window {
 }
 
 #battery.critical:not(.charging) {
+    color: @red;
+}
+
+#custom-notifications {
+    color: @comment;
+    padding: 0 12px 0 2px;
+}
+
+#custom-notifications.unread {
+    color: @yellow;
+}
+
+#custom-notifications.dnd {
     color: @red;
 }
 

@@ -10,10 +10,13 @@ border-radius=10
 padding=12
 margin=10
 width=360
-anchor=top-right
+anchor=top-center
 default-timeout=5000
 icons=1
 max-icon-size=48
+max-history=50
+# avisa a la campanita de la barra (scripts/notifications.sh)
+on-notify=exec pkill -RTMIN+8 -x waybar
 
 [urgency=low]
 border-color=#414868
@@ -32,3 +35,10 @@ border-color=#bb9af7
 progress-color=over #3d59a1
 default-timeout=1500
 history=0
+
+# No molestar: oculta las notificaciones (siguen llegando al historial), salvo el indicador
+[mode=do-not-disturb]
+invisible=1
+
+[mode=do-not-disturb app-name=osd]
+invisible=0

@@ -8,8 +8,8 @@
     "spacing": 8,
 
     "modules-left": ["custom/launcher", "hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["clock"],
-    "modules-right": ["tray", "hyprland/language", "pulseaudio", "backlight", "cpu", "memory", "battery", "custom/power"],
+    "modules-center": ["clock", "custom/notifications"],
+    "modules-right": ["tray", "hyprland/language", "pulseaudio", "temperature", "memory", "battery", "custom/power"],
 
     "custom/launcher": {
         "format": "",
@@ -42,6 +42,15 @@
         }
     },
 
+    "custom/notifications": {
+        "exec": "~/.config/hypr/scripts/notifications.sh status",
+        "return-type": "json",
+        "interval": 30,
+        "signal": 8,
+        "on-click": "~/.config/hypr/scripts/notifications.sh menu",
+        "on-click-right": "~/.config/hypr/scripts/notifications.sh dnd"
+    },
+
     "tray": {
         "icon-size": 16,
         "spacing": 10
@@ -60,13 +69,13 @@
         "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     },
 
-    "backlight": {
-        "format": "  {percent}%"
-    },
-
-    "cpu": {
-        "format": "  {usage}%",
-        "interval": 5
+    "temperature": {
+        "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+        "input-filename": "temp1_input",
+        "interval": 5,
+        "critical-threshold": 85,
+        "format": "\uf2c9  {temperatureC}°C",
+        "tooltip-format": "Temperatura del procesador"
     },
 
     "memory": {

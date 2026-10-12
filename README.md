@@ -178,6 +178,15 @@ La huella la lee hyprlock directamente, y la contraseña usa el servicio PAM `pa
 
 `hypridle.conf`: atenúa la pantalla a los 5 minutos, bloquea a los 10, apaga la pantalla a los 11 y suspende a los 30. Antes de cualquier suspensión (menú, tapa o inactividad) bloquea la sesión y no deja dormir al equipo hasta que la pantalla de bloqueo está puesta, sin animación de entrada, para que al despertar no se vea el escritorio.
 
+## Notificaciones
+
+Aparecen arriba al centro, bajo el reloj. La campanita junto al reloj muestra cuántas hay sin ver:
+
+- **Clic:** abre el historial en una lista. `Enter` sobre una notificación copia su texto; las dos primeras filas activan "no molestar" y borran el historial.
+- **Clic derecho:** activa o desactiva "no molestar". Mientras está activo las notificaciones no aparecen en pantalla, pero se guardan en el historial; el indicador de volumen y brillo se sigue mostrando.
+
+El historial guarda las últimas 50 y se vacía al cerrar sesión.
+
 ## Ajustes del sistema
 
 Hyprland no tiene un panel central de configuración como GNOME:
@@ -219,7 +228,7 @@ config/                     Todo lo de aquí se copia a ~/.config/
 │   ├── hyprsunset.conf     Horario de la luz nocturna
 │   ├── atajos.txt          Lista que muestra Super + F1
 │   ├── wallpaper.jpg       Fondo por defecto
-│   └── scripts/            Tema, capturas, energía, portapapeles, fondo, atajos, indicador, luz nocturna, ventanas, ayuda del bloqueo
+│   └── scripts/            Tema, capturas, energía, portapapeles, fondo, atajos, indicador, luz nocturna, ventanas, ayuda del bloqueo, notificaciones
 ├── waybar/                 Barra
 ├── rofi/                   Lanzador y su tema
 ├── kitty/                  Terminal y colores
