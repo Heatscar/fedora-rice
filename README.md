@@ -222,6 +222,7 @@ Los Ajustes de GNOME sirven para red, Bluetooth, sonido y energía. Sus seccione
 install.sh                  Instalador
 bashrc.d/starship.sh        Activa el prompt en kitty        -> ~/.bashrc.d/
 screenshots/                Capturas que muestra este README
+LICENSE                     Licencia GPL-3.0
 config/                     Todo lo de aquí se copia a ~/.config/
 ├── hypr/
 │   ├── hyprland.lua        Configuración principal
@@ -247,7 +248,6 @@ config/                     Todo lo de aquí se copia a ~/.config/
 
 ## Problemas conocidos
 
-- **Clic en los workspaces de la barra:** no está comprobado que cambie de workspace con esta versión de Hyprland. Los atajos `Super + 1..0` sí funcionan.
 - **Validar la configuración:** tras editar `hyprland.lua`, `hyprctl configerrors` muestra los errores de la sesión activa, y `Hyprland --verify-config -c ~/.config/hypr/hyprland.lua` la comprueba sin aplicarla.
 - **La barra no aparece o algo no arranca:** los programas de inicio están en la sección `AUTOSTART` de `hyprland.lua`; ejecútalos a mano en una terminal (por ejemplo `waybar`) para ver el error.
 
@@ -276,3 +276,9 @@ Si el instalador guardó copias de tus archivos anteriores, están en `~/.config
 - Paleta [Tokyo Night](https://github.com/folke/tokyonight.nvim)
 - COPR [`sdegler/hyprland`](https://copr.fedorainfracloud.org/coprs/sdegler/hyprland/)
 - [JetBrainsMono Nerd Font](https://www.nerdfonts.com/), [Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor), [Papirus](https://github.com/PapirusDevelopmentTeam/papirus-icon-theme), [adw-gtk3](https://github.com/lassekongo83/adw-gtk3)
+
+## Licencia
+
+Copyright (C) 2026 Heatscar
+
+Este proyecto es software libre bajo la [GNU General Public License v3.0](LICENSE). Puedes usarlo, modificarlo y redistribuirlo; si publicas una versión modificada, debe seguir bajo la misma licencia y con el código disponible. Se ofrece sin ninguna garantía.
