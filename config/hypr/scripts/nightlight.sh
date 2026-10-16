@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Alterna la luz nocturna a mano. El horario automatico esta en hyprsunset.conf.
 
-warm=4000
+warm=3500
 state_file="${XDG_RUNTIME_DIR:-/tmp}/nightlight-state"
 
 osd() { notify-send -a osd -t 1500 -h string:x-canonical-private-synchronous:osd "$1" ${2:+"$2"}; }

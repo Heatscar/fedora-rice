@@ -36,6 +36,10 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hyprsunset")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("nm-applet --indicator")
+    -- Bluetooth apagado al iniciar sesion; se enciende a mano desde el icono de la bandeja.
+    -- Bloquear por rfkill corta la radio: apagarlo solo desde bluez no basta, porque el
+    -- adaptador se reinicia y bluez lo vuelve a encender solo.
+    hl.exec_cmd("rfkill block bluetooth")
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
@@ -204,7 +208,8 @@ hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd(scripts .. "clipboard.sh"))
 hl.bind(mainMod .. " + N",         hl.dsp.exec_cmd(scripts .. "nightlight.sh"))
 hl.bind(mainMod .. " + SHIFT + space", hl.dsp.exec_cmd("hyprctl switchxkblayout all next"))
 hl.bind(mainMod .. " + F1",        hl.dsp.exec_cmd(scripts .. "atajos.sh"))
--- Ajustes de GNOME: sirven para red, bluetooth, sonido y energia; pantallas y apariencia no aplican aqui
+-- Ajustes de GNOME: sirven para red, sonido y energia. Bluetooth, pantallas y apariencia no: dependen
+-- de servicios de la sesion de GNOME (el Bluetooth se gestiona con blueman, en la bandeja)
 hl.bind(mainMod .. " + I",         hl.dsp.exec_cmd("env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"))
 
 -- Ventanas

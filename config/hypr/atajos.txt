@@ -2,7 +2,7 @@ Super + Espacio          Lanzador de apps
 Super + Enter            Terminal (kitty)
 Super + E                Archivos
 Super + B                Firefox
-Super + I                Ajustes (red, bluetooth, sonido)
+Super + I                Ajustes (red, sonido)
 Super + Q                Cerrar ventana
 Super + F                Pantalla completa (en un workspace propio)
 Super + M                Maximizar

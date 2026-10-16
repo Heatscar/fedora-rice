@@ -72,7 +72,7 @@ Si algo queda inutilizable, `Super + Shift + E` abre el menú de energía. Si ta
 | `Super + Espacio` | Lanzador de apps; otra vez lo cierra |
 | `Super + Enter` | Terminal (kitty) |
 | `Super + E` / `Super + B` | Archivos (Nautilus) / Firefox |
-| `Super + I` | Ajustes de GNOME (red, Bluetooth, sonido) |
+| `Super + I` | Ajustes de GNOME (red, sonido, usuarios...; ver "Ajustes del sistema") |
 | `Super + Q` | Cerrar ventana |
 | `Super + F` / `Super + M` | Pantalla completa en un workspace propio / maximizar |
 | `Super + Shift + V` | Ventana flotante |
@@ -107,7 +107,7 @@ Las teclas de volumen, micrófono y brillo muestran un indicador en pantalla, y 
 - **Varias ventanas:** las flechas mueven la ventana dentro del mosaico.
 - **Ventana maximizada o en pantalla completa:** se restaura antes de moverla.
 
-Una ventana ajustada a una mitad queda flotando: si abres otra en ese workspace, la nueva ocupa toda la pantalla por debajo. Con dos o más ventanas no hace falta ajustar, el mosaico ya las reparte.
+Si abres otra ventana en un workspace donde hay una ajustada, la ajustada vuelve al mosaico en su mismo lado y la nueva ocupa la otra mitad. Con dos o más ventanas no hace falta ajustar, el mosaico ya las reparte.
 
 ### Pantalla completa
 
@@ -168,7 +168,7 @@ Están en la sección `KEYBINDINGS` de `hyprland.lua`. Si añades o cambias algu
 
 ### Luz nocturna
 
-Está siempre activa (4000 K) desde que inicias sesión, y `Super + N` la apaga o enciende a mano. Para usar un horario, añade bloques `profile` con otras horas en `hyprsunset.conf`; el archivo lo explica.
+Está siempre activa (3500 K) desde que inicias sesión, y `Super + N` la apaga o enciende a mano. Para usar un horario, añade bloques `profile` con otras horas en `hyprsunset.conf`; el archivo lo explica.
 
 ### Pantalla de bloqueo
 
@@ -207,7 +207,15 @@ Hyprland no tiene un panel central de configuración como GNOME:
 | Fondo | `wallpaper.sh` |
 | Resto | `Super + I` abre los Ajustes de GNOME |
 
-Los Ajustes de GNOME sirven para red, Bluetooth, sonido y energía. Sus secciones de pantallas y apariencia no tienen efecto dentro de Hyprland.
+Los Ajustes de GNOME (`Super + I`) funcionan a medias dentro de Hyprland: las secciones que hablan con servicios del sistema sí sirven, y las que dependen de la propia sesión de GNOME no.
+
+| Funcionan | No funcionan (y dónde se hace) |
+|---|---|
+| Wi-Fi y redes, sonido, usuarios (incluido registrar huellas), fecha y hora, impresoras, aplicaciones por defecto, cuentas en línea, modo de energía | Bluetooth (puede mostrarlo apagado aunque esté encendido): icono de la bandeja · Pantallas (no detecta ninguna): `monitors.lua` · Ratón y touchpad: sección `INPUT` de `hyprland.lua` · Atajos de teclado: `hyprland.lua` · Fondo: `wallpaper.sh` · Notificaciones: la campanita · Apagado de pantalla y suspensión automática: `hypridle.conf` |
+
+### Bluetooth
+
+Arranca apagado en cada inicio de sesión y se enciende a mano desde el icono de la bandeja. Se apaga cortando la radio (`rfkill block bluetooth`, en la sección `AUTOSTART` de `hyprland.lua`): apagarlo solo desde el servicio de Bluetooth no basta en algunos portátiles, porque el adaptador se reinicia y se vuelve a encender solo. Para que arranque encendido, quita esa línea.
 
 ## Cosas que también afectan a GNOME
 
